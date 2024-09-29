@@ -78,10 +78,10 @@ class NeuralNetwork:
             else:
                 self.W.append(np.zeros(shape = (layers[i + 1], layers[i])))    
 
-            self.b.append(np.zeros(shape = (layers[i + 1], 1)))
-            self.__a.append(np.zeros(shape = (layers[i + 1], 1)))
-            self.__n.append(np.zeros(shape = (layers[i + 1], 1)))
-            self.__s.append(np.zeros(shape = (layers[i + 1], 1)))
+            self.b.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
+            self.__a.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
+            self.__n.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
+            self.__s.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
         
         
     def predict(self, X):
