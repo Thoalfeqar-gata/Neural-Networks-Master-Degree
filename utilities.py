@@ -42,14 +42,15 @@ def linear_d(n):
 
 #define a neural network class for the mean squared error loss function
 class NeuralNetwork:
-    def __init__(self, layers, layer_activations, learning_rate = 0.1, initialization = 'random', hidden_layer_activations = 'sigmoid'):
+    def __init__(self, input_size, layers, layer_activations, learning_rate = 0.1, initialization = 'random', hidden_layer_activations = 'sigmoid'):
         self.W = [] #weights
         self.b = [] #biases
         self.__a = [] #activations of each layer
         self.__n = [] #net input into each layer
         self.__s = [] #sensitivities of each layer
-        
+        self.__layer_sizes = [input_size] + layers #define the sizes of all layers, including the input layer
         self.__layer_activations = layer_activations #a list of the activation functions for each layer
+        
         self.__activations = { #a dict of all possible activation functions and their derivatives
             'sigmoid': sigmoid,
             'sigmoid_d' : sigmoid_d,
@@ -63,7 +64,7 @@ class NeuralNetwork:
             'tanh_d' : tanh_d
         }
         
-        self.num_layers = len(layers)
+        self.num_layers = len(self.__layer_sizes)
         self.learning_rate = learning_rate
         
         #the activation functions of the layers
@@ -74,14 +75,14 @@ class NeuralNetwork:
         #initialize the parameters
         for i in range(self.num_layers - 1):
             if initialization == 'random':
-                self.W.append(np.random.uniform(-1, 1, size = (layers[i+1], layers[i])))
+                self.W.append(np.random.uniform(-1, 1, size = (self.__layer_sizes[i+1], self.__layer_sizes[i])))
             else:
-                self.W.append(np.zeros(shape = (layers[i + 1], layers[i])))    
+                self.W.append(np.zeros(shape = (self.__layer_sizes[i + 1], self.__layer_sizes[i])))    
 
-            self.b.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
-            self.__a.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
-            self.__n.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
-            self.__s.append(np.zeros(shape = (layers[i + 1], 1), dtype = np.float64))
+            self.b.append(np.zeros(shape = (self.__layer_sizes[i + 1], 1), dtype = np.float64))
+            self.__a.append(np.zeros(shape = (self.__layer_sizes[i + 1], 1), dtype = np.float64))
+            self.__n.append(np.zeros(shape = (self.__layer_sizes[i + 1], 1), dtype = np.float64))
+            self.__s.append(np.zeros(shape = (self.__layer_sizes[i + 1], 1), dtype = np.float64))
         
         
     def predict(self, X):
