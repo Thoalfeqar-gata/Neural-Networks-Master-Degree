@@ -87,7 +87,9 @@ class NeuralNetwork:
         
     def predict(self, X):
         return self.__forward_pass(X)
-        
+    
+    def get_intermediate_information(self):
+        return self.__s, self.__a, self.__n
         
     def fit(self, X, y):
         self.__forward_pass(X)
